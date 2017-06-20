@@ -1,7 +1,9 @@
 #! usr/bin/python3
 
 import random
-# from person import *
+# import classes.person
+from classes.person import Person, Staff, Fellow
+
 
 class Amity( object ):
     def __init__(self):
@@ -27,7 +29,7 @@ class Amity( object ):
                     self.living[room_name] = []
                 else:
                     raise ValueError( "Room Type can only be Office or Living" )
-                    print( ValueError )
+                    # print( ValueError )
             else:
                 return "{} has not been added because it has special characters".format( room_name )
 
