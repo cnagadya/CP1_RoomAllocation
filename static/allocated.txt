@@ -1,0 +1,53 @@
+
+Office Name: Blue
+-----------------------
+Occupants:
+1.LEIGH RILEY
+2.SIMON PATTERSON
+7.KELLY McGUIRE
+8.KELLY McGUIRE
+9.SIMON PATTERSON
+16.SIMON PATTERSON
+
+Office Name: Black
+-----------------------
+Occupants:
+3.MARI LAWRENCE
+4.LEIGH RILEY
+10.MARI LAWRENCE
+15.KELLY McGUIRE
+17.MARI LAWRENCE
+19.TANA LOPEZ
+
+Office Name: Brown
+-----------------------
+Occupants:
+5.TANA LOPEZ
+6.KELLY McGUIRE
+11.LEIGH RILEY
+12.TANA LOPEZ
+13.KELLY McGUIRE
+14.KELLY McGUIRE
+
+Living Space name: Oranges
+---------------------
+Occupants:
+3.MARI LAWRENCE
+10.MARI LAWRENCE
+19.TANA LOPEZ
+24.MARI LAWRENCE
+
+Living Space name: Mangoes
+---------------------
+Occupants:
+2.SIMON PATTERSON
+17.MARI LAWRENCE
+23.SIMON PATTERSON
+
+Living Space name: Apples
+---------------------
+Occupants:
+5.TANA LOPEZ
+9.SIMON PATTERSON
+12.TANA LOPEZ
+16.SIMON PATTERSON
