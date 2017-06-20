@@ -230,7 +230,8 @@ class Amity( object ):
             for person in self.unaallocated_living:
                 print( person )
         else:
-            print( "All people in the system have been allocated office and / or living space" )
+            print(
+                "All people in the system have been allocated office and / or living space" )
 
     def print_room(self, room_name):
         """Method prints the names of all the people in  room_name  on the screen.
@@ -238,12 +239,14 @@ class Amity( object ):
         """
         if room_name in self.rooms["Offices"]:
             if self.offices[room_name]:
-                print( "\n" + room_name + "\n-----------------------\n" + str( amity.offices[room_name] ) )
+                print( "\n" + room_name + "\n-----------------------\n" +
+                       str( amity.offices[room_name] ) )
             else:
                 print( "{} is empty!".format( room_name ) )
         elif room_name in self.rooms["Living Spaces"]:
             if self.living[room_name]:
-                print( "\n" + room_name + "\n---------------------\n" + str( amity.living[room_name] ) )
+                print( "\n" + room_name + "\n---------------------\n" +
+                       str( amity.living[room_name] ) )
             else:
                 print( "{} is empty!".format( room_name ) )
 
