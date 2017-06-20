@@ -39,11 +39,12 @@ class Amity( object ):
            Required arguments:first_name, last_name &  person_type
            Optional arguments: wants_accommodation"""
         person_name = first_name + " " + last_name
-        print( "Adding {}...".format( person_name ) )
+
         if len( self.rooms["Offices"] ) == 0 or len( self.rooms["Living Spaces"] ) == 0:
-            print( "You need to add atleast one room and one office to add a person" )
+            return "You need to add atleast one room and one office to add a person"
 
         elif person_type.upper() == "STAFF":
+            print( "Adding {}...".format( person_name ) )
             if wants_accommodation is not None:
                 return "For staff, you can only input 'First Name', 'Last Name' & 'Employment Type'"
             else:
@@ -53,59 +54,59 @@ class Amity( object ):
                 # self.people[person_id] = person_name
                 print( "{} has successfully been added as a member of staff".format(
                     person_name ) )
-                Amity.assign_office( new_person )
-
-
+                self.assign_office( new_person )
 
         elif person_type.upper() == "FELLOW":
+            print( "Adding {}...".format( person_name ) )
             if wants_accommodation == "N" or wants_accommodation is None:
                 person_id = len( self.people ) + 1
                 new_person = Person( person_name, person_type, person_id )
                 self.people.append( new_person )
                 # self.people[person_id] = person_name
                 print( "{} has successfully been added as a fellow".format( person_name ) )
-                Amity.assign_office( new_person )
-                print( "{} does not want accommodation".format( person_name ) )
+                self.assign_office( new_person )
+                return "{} does not want accommodation".format( person_name )
 
             elif wants_accommodation == "Y":
                 person_id = len( self.people ) + 1
                 new_person = Person( person_name, person_type, person_id )
                 self.people.append( new_person )
                 print( "{} has successfully been added as a fellow".format( person_name ) )
-                Amity.assign_office( new_person )
-                Amity.assign_living( new_person )
+                self.assign_office( new_person )
+                self.assign_living( new_person )
 
             else:
-                print(
-                    "Sorry, the value for 'wants_accommodation' can only be 'Y', 'N'or left blank" )
+                return (
+                    "Sorry, the value for 'wants_accommodation' can only be 'Y', 'N'or left blank")
         else:
-            print( "{} not added because (s)he is neither a staff nor a fellow".format( person_name ) )
+            print( "{} not added because (s)he is neither a staff nor a fellow".format(
+                person_name ) )
         print( "==============" )
 
-    @staticmethod
-    def assign_office(new_person):
+    # @staticmethod
+    def assign_office(self, new_person):
         """Helper method to assign fellows and staff office space. This method is called inside the add_person method"""
         # amity = Amity()
-        choice_office = random.choice( list( amity.offices.keys() ) )
-        if len( amity.offices[choice_office] ) < 6:
-            amity.offices[choice_office].append( new_person )
+        choice_office = random.choice( list( self.offices.keys() ) )
+        if len( self.offices[choice_office] ) < 6:
+            self.offices[choice_office].append( new_person )
             print( "{} has been given an office {}".format(
                 new_person.person_name, choice_office ) )
         else:
+            self.unallocated_office.append( new_person )
             print( "Sorry there are no more available offices." )
-            amity.unallocated_office.append( new_person )
 
-    @staticmethod
-    def assign_living(new_fellow):
+    # @staticmethod
+    def assign_living(self, new_fellow):
         """Helper method to assign fellows living spaces. This method is called inside the add_person method"""
-        choice_living = random.choice( list( amity.living.keys() ) )
-        if len( amity.living[choice_living] ) < 4:
-            amity.living[choice_living].append( new_fellow )
+        choice_living = random.choice( list( self.living.keys() ) )
+        if len( self.living[choice_living] ) < 4:
+            self.living[choice_living].append( new_fellow )
             print( "{} has been given accommodation in {}".format(
                 new_fellow.person_name, choice_living ) )
         else:
             print( "Sorry there are no more available living spaces." )
-            amity.unaallocated_living.append( new_fellow )
+            self.unaallocated_living.append( new_fellow )
 
     def reallocate_person(self, person_id, new_room_name):
         """Method moves people from one room to another. It ensures that only fellows can be reallocated living
