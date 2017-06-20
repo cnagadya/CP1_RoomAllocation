@@ -157,48 +157,66 @@ class Amity( object ):
     def load_people(self, file_name):
         """Method takes a file as the input and adds the people  line by line into the system using the add_person
            method"""
-        file = open(('../static/'+ file_name), 'r')
-        for line in file:
-            single_person = line.split()
-            if not single_person:
-                continue
-            elif len( single_person ) < 3:
-                print( "Unable to add user at line" )
-            else:
-                first_name = single_person[0]
-                last_name = single_person[1]
-                person_type = single_person[2]
-                if len( single_person ) == 3:
-                    wants_accommodation = None
+        try:
+            file = open( ('static/' + file_name), 'r' )
+        except IOError:
+            return "Unable to locate file named {}".format(file_name)
+        else:
+
+            line_no = 0
+            for line in file:
+                line_no += 1
+                single_person = line.split()
+                if not single_person:
+                    continue
+                elif len( single_person ) < 3 or len( single_person ) > 4:
+                    print( "Unable to add user at line {}".format(line_no) )
                 else:
-                    wants_accommodation = single_person[3]
+                    first_name = single_person[0]
+                    last_name = single_person[1]
+                    person_type = single_person[2]
+                    if len( single_person ) == 3:
+                        wants_accommodation = None
+                    else:
+                        wants_accommodation = single_person[3]
 
-                amity.add_person( first_name, last_name, person_type, wants_accommodation )
+                    self.add_person( first_name, last_name, person_type, wants_accommodation )
 
-    def print_allocations(self):
+            print( "All users in file {} added".format( file_name ) )
+
+    def print_allocations(self, file_name=None):
         """Method prints out all rooms in the Dojo, (booth the offices and living spaces) as well as the people in
            each room to the screen to the screen.
            Optional arguments: file_name. Is specified, the unallocated people are saved to the file """
+
         if len( self.rooms["Offices"] ) == 0 or len( self.rooms["Living Spaces"] ) == 0:
             print( "No offices or living spaces have been added to the system yet" )
         else:
-            for room_name in self.rooms["Offices"]:
-                if amity.offices[room_name]:
-                    print( "\nOffice Name: " + room_name + "\n-----------------------\n" )
-                    for name in (amity.offices[room_name]):
-                        print( name )
-                else:
-                    print( "\nOffice {} is empty!".format( room_name ) )
-            for room_name in self.rooms["Living Spaces"]:
+            if file_name is None:
+                print( self.allocations_view() )
+            else:
+                with open( ('static/' + file_name), "w+" ) as file:
+                    file.write( self.allocations_view() )
+                print( "Allocations successfully saved to {}".format( file_name ) )
 
-                if amity.living[room_name]:
-                    print( "\nLiving Space name: " + room_name + "\n---------------------\n" + "Occupants:" )
-                    for name in amity.living[room_name]:
-                        print( name )
-                else:
-                    print( "\nLiving space {} is empty!".format( room_name ) )
+    def allocations_view(self):
+        allocations = ""
+        for room_name in self.rooms["Offices"]:
+            if self.offices[room_name]:
+                allocations += "\nOffice Name: " + room_name + "\n-----------------------\nOccupants:\n"
+                for person in (self.offices[room_name]):
+                    allocations += str( person.person_id ) + "." + person.person_name + "\n"
+            else:
+                allocations += "\nOffice {} is empty!".format( room_name )
+        for room_name in self.rooms["Living Spaces"]:
 
-                    # f- open("allocations.txt", "w")
+            if self.living[room_name]:
+                allocations += "\nLiving Space name: " + room_name + "\n---------------------\nOccupants:\n"
+                for person in self.living[room_name]:
+                    allocations += str( person.person_id ) + "." + person.person_name + "\n"
+            else:
+                allocations += "\nLiving space {} is empty!".format( room_name )
+        return allocations
 
     def print_unallocated(self):
         """Method prints a list of unallocated people to the screen.
