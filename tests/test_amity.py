@@ -1,5 +1,9 @@
+#! usr/bin/python3
+
 import unittest
-from classes.amity import Amity
+# import amity
+from amity import Amity
+from classes.person import Person, Staff, Fellow
 
 
 class TestAmity( unittest.TestCase ):
