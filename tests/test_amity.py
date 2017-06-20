@@ -11,20 +11,20 @@ class TestAmity( unittest.TestCase ):
         self.amity = Amity()
 
     def test_create_single_office_successfully(self):
-        self.amity.create_room("Office", "Africa" )
-        self.assertEqual( {"Offices": ["Africa"], "Living Spaces":[]},
+        self.amity.create_room( "Office", "Africa" )
+        self.assertEqual( {"Offices": ["Africa"], "Living Spaces": []},
                           self.amity.rooms,
                           msg="Unable to create office!" )
 
     def test_create_single_living_successfully(self):
         self.amity.create_room( "Living", "Impala", "Eland" )
-        self.assertEqual( { "Offices": [], "Living Spaces": ["Impala",  "Eland"] },
+        self.assertEqual( {"Offices": [], "Living Spaces": ["Impala", "Eland"]},
                           self.amity.rooms,
                           msg="Unable to create living space!" )
 
     def test_create_two_living_successfully(self):
         self.amity.create_room( "Living", "Impala", "Eland" )
-        self.assertEqual( { "Offices": [], "Living Spaces": ["Impala",  "Eland"] },
+        self.assertEqual( {"Offices": [], "Living Spaces": ["Impala", "Eland"]},
                           self.amity.rooms,
                           msg="Unable to create multiple living spaces!" )
 
@@ -33,7 +33,7 @@ class TestAmity( unittest.TestCase ):
         self.amity.create_room( "office", "Asia" )
         self.amity.create_room( "OFFICE", "America" )
         self.amity.create_room( "OfFicE", "Europe" )
-        self.assertEqual( {"Offices": ["Africa","Asia" , "America","Europe" ], "Living Spaces": []},
+        self.assertEqual( {"Offices": ["Africa", "Asia", "America", "Europe"], "Living Spaces": []},
                           self.amity.rooms,
                           msg="Room Types are case sensitive!" )
 
@@ -43,10 +43,11 @@ class TestAmity( unittest.TestCase ):
                           self.amity.rooms,
                           msg="Offices with special character in name getting created!" )
         self.assertTrue( "Afr!ca has not been added because it has special characters",
-                          self.amity.create_room( "Office", "Afr!ca" ))
+                         self.amity.create_room( "Office", "Afr!ca" ) )
 
     def test_invalid_room_type(self):
-        self.assertRaises( ValueError, self.amity.create_room,"Off1ce", "Africa" )
+        self.assertRaises( ValueError, self.amity.create_room,
+                           "Off1ce", "Africa" )
 
     def test_repeated_office_name(self):
         repeated_name = self.amity.create_room( "Office", "Africa" )
