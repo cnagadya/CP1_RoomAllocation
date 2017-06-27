@@ -7,7 +7,6 @@ import term
 from classes.person import Person
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
 from database import State, Base
 
 
@@ -21,11 +20,12 @@ class Amity( object ):
         self.unaallocated_living = []
 
     def create_room(self, room_type, *room_names):
-        """Method to create one or more rooms at the same time"""
+        """Method to create one or more rooms at the same time
+           Required arguments: room_type and new_room_name:"""
         room_type = room_type.upper()
         for room_name in room_names:
             if room_name in self.rooms["Offices"] or room_name in self.rooms["Living Spaces"]:
-                return "An office / living space with name {} already exists".format( room_name )
+                return term.bold + "An office / living space with name {} already exists".format( room_name ) + term.off
             elif room_name.isalnum():
                 if room_type == "OFFICE":
                     self.rooms["Offices"].append( room_name )
@@ -51,7 +51,7 @@ class Amity( object ):
         person_name = first_name + " " + last_name
 
         if len( self.rooms["Offices"] ) == 0 or len( self.rooms["Living Spaces"] ) == 0:
-            return term.red + "You need to add atleast one room and one office to add a person" + term.off
+            return term.red + "You need to add at least one room and one office to add a person" + term.off
 
         elif person_type.upper() == "STAFF":
             print( "Adding {}...".format( person_name ) )
@@ -62,8 +62,8 @@ class Amity( object ):
                 new_person = Person( person_name, person_type, person_id )
                 self.people.append( new_person )
                 # self.people[person_id] = person_name
-                print( "{} has successfully been added as a member of staff with id {}".format(
-                    person_name, new_person.person_id ) )
+                print(term.bggreen + "{} has successfully been added as a member of staff with id {}".format(
+                    person_name, new_person.person_id ) + term.off )
                 self.assign_office( new_person )
 
         elif person_type.upper() == "FELLOW":
@@ -73,24 +73,22 @@ class Amity( object ):
                 new_person = Person( person_name, person_type, person_id )
                 self.people.append( new_person )
                 # self.people[person_id] = person_name
-                print( "{} has successfully been added as a fellow with id {}".format(person_name, new_person.person_id ) )
-                self.assign_office( new_person )
+                print( term.bggreen + "{} has successfully been added as a fellow with id {}".format(person_name, new_person.person_id ) )
+                self.assign_office( new_person ) + term.off
                 return "{} does not want accommodation".format( person_name )
 
             elif wants_accommodation.upper() == "Y":
                 person_id = len( self.people ) + 1
                 new_person = Person( person_name, person_type, person_id )
                 self.people.append( new_person )
-                print( "{} has successfully been added as a fellow with id {}".format(person_name, new_person.person_id ))
+                print( term.bggreen + "{} has successfully been added as a fellow with id {}".format(person_name, new_person.person_id ) + term.off)
                 self.assign_office( new_person )
                 self.assign_living( new_person )
 
             else:
-                return (
-                    "Sorry, the value for 'wants_accommodation' can only be 'Y', 'N'or left blank")
+                return term.red + "Sorry, the value for 'wants_accommodation' can only be 'Y', 'N'or left blank" + term.off
         else:
-            print( "{} not added because (s)he is neither a staff nor a fellow".format(
-                person_name ) )
+            print( "{} not added because (s)he is neither a staff nor a fellow".format(person_name ) )
         return( "==============" )
 
 
@@ -137,12 +135,6 @@ class Amity( object ):
                         self.offices[new_room_name].append( person )
                         print(
                             "{}'s office has been changed to '{}'".format( person.person_name, new_room_name ) )
-                        # break
-                            # else:
-                            #     print("{} did not have an office before and therefore cant be reallocated".format(person))
-                            #     break
-
-
                     else:
                         print( "Sorry, office '{}' is already full".format(
                             new_room_name ) )
@@ -175,7 +167,8 @@ class Amity( object ):
 
     def load_people(self, file_name):
         """Method takes a file as the input and adds the people  line by line into the system using the add_person
-           method"""
+           method.
+           Required arguments: file_name"""
         if len( self.rooms["Offices"] ) == 0 or len( self.rooms["Living Spaces"] ) == 0:
             return "You need to add atleast one room and one office to add a person"
         else:
@@ -211,9 +204,9 @@ class Amity( object ):
         return ("==============")
 
     def print_allocations(self, file_name=None):
-        """Method prints out all rooms in the Dojo, (booth the offices and living spaces) as well as the people in
+        """Method prints out all rooms in the Dojo, (both the offices and living spaces) as well as the people in
            each room to the screen to the screen.
-           Optional arguments: file_name. Is specified, the unallocated people are saved to the file """
+           Optional arguments: file_name. If specified, the unallocated people are saved to the file """
 
         if len( self.rooms["Offices"] ) == 0 or len( self.rooms["Living Spaces"] ) == 0:
             print( "No offices or living spaces have been added to the system yet" )
@@ -227,6 +220,7 @@ class Amity( object ):
         return ("==============")
 
     def allocations_view(self):
+        """Helper method to filter out all people in the system that have been allocated to the different rooms"""
         allocations = ""
         for room_name in self.rooms["Offices"]:
             if self.offices[room_name]:
@@ -251,7 +245,7 @@ class Amity( object ):
 
     def print_unallocated(self, file_name=None):
         """Method prints a list of unallocated people to the screen.
-           Optional arguments: file_name. Is specified, the unallocated people are saved to the file"""
+           Optional arguments: file_name. If specified, the unallocated people are saved to the file"""
         if self.unallocated_office == [] and self.unaallocated_living == []:
             print(
                 "All people in the system have been allocated office and / or living space" )
@@ -267,6 +261,7 @@ class Amity( object ):
                     "All unallocated people have been successfully saved to {}".format( file_name ) )
 
     def unallocated_view(self):
+        """Helper method to filter out all people in the system who havent been allocated living or office space """
         unallocated = ""
         unallocated += "\n People without offices\n---------------------"
         for person in self.unallocated_office:
