@@ -15,10 +15,11 @@ Options:
     -h, --help  Show this screen and exit.
 """
 from docopt import docopt, DocoptExit
-import cmd, os, sys, term
+import cmd, os, sys,term
+from pyfiglet import Figlet
 from classes.person import Person, Fellow, Staff
 from classes.room import Room, Office, LivingSpace
-from amity import Amity
+from classes.amity import Amity
 
 
 amity = Amity()
@@ -57,7 +58,10 @@ def intro():
 class DojoRoomAllocation( cmd.Cmd ):
     os.system( "clear" )
 
-    prompt = '\n ==== > DojoRoomAllocation: '
+    f = Figlet( font='cosmic' )
+    print( term.blue + f.renderText( 'A  M  I  T  Y' )+ term.off)
+
+    prompt = '\n ==== > Enter command: '
     amity = Amity()
 
     @docopt_cmd
@@ -67,6 +71,7 @@ class DojoRoomAllocation( cmd.Cmd ):
         try:
             for room_name in arg['<room_names>']:
                 print( amity.create_room( arg['<room_type>'], room_name ) )
+                print("==============")
         except Exception:
             msg = term.red + 'An error when running create_room command' + term.off
             print(msg)
@@ -139,6 +144,7 @@ class DojoRoomAllocation( cmd.Cmd ):
         try:
             room_name = arg["<room_name>"]
             print( amity.print_room( room_name ) )
+            print ("\n ==============")
         except Exception:
             print(term.red + 'An error when running print_room command' + term.off)
 
@@ -171,7 +177,8 @@ class DojoRoomAllocation( cmd.Cmd ):
         """
 
         os.system( 'clear' )
-        print( 'Thank you for using our app. Hope to see you back soon' )
+        print( term.blue + term.center( '\n=========================\n\nThank you for using the AMITY app. Hope to '
+                                        'see you back soon\n\n=========================\n') + term.off)
         exit()
 
 
