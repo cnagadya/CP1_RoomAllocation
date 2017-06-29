@@ -1,5 +1,6 @@
 # AMITY
 [![Build Status](https://travis-ci.org/cnagadya/CP1_RoomAllocation.svg?branch=develop)](https://travis-ci.org/cnagadya/CP1_RoomAllocation)
+[![Coverage Status](https://coveralls.io/repos/github/cnagadya/CP1_RoomAllocation/badge.svg?branch=develop)](https://coveralls.io/github/cnagadya/CP1_RoomAllocation?branch=develop)
 
 > A simple command line  application to automate the allocation of offices and living spaces to people (either staff or fellows)
 
