@@ -14,15 +14,17 @@ Options:
     -i, --interactive  Interactive Mode
     -h, --help  Show this screen and exit.
 """
+import cmd
+import os
+import term
+
 from docopt import docopt, DocoptExit
-import cmd, os, sys,term
 from pyfiglet import Figlet
-from classes.person import Person, Fellow, Staff
-from classes.room import Room, Office, LivingSpace
+
 from classes.amity import Amity
 
-
 amity = Amity()
+
 
 def docopt_cmd(func):
     """
@@ -32,34 +34,35 @@ def docopt_cmd(func):
 
     def fn(self, arg):
         try:
-            opt = docopt( fn.__doc__, arg )
+            opt = docopt(fn.__doc__, arg)
         except DocoptExit as e:
             msg = "Invalid command! See help."
-            print( msg )
-            print( e )
+            print(msg)
+            print(e)
             return
 
         except SystemExit:
             return
 
-        return func( self, opt )
+        return func(self, opt)
 
     fn.__name__ = func.__name__
     fn.__doc__ = func.__doc__
-    fn.__dict__.update( func.__dict__ )
+    fn.__dict__.update(func.__dict__)
 
     return fn
 
 
 def intro():
-    print( __doc__ )
+    print(__doc__)
 
 
-class DojoRoomAllocation( cmd.Cmd ):
-    os.system( "clear" )
+class DojoRoomAllocation(cmd.Cmd):
+    os.system("clear")
 
-    f = Figlet( font='cosmic' )
-    print( term.blue + f.renderText( 'A  M  I  T  Y' )+ term.off)
+    f = Figlet(font='cosmic')
+    print(term.white + f.renderText('A  M  I  T  Y') + term.off)
+    print("=====================\n \n \n Type 'help' to view list of commands\n\n\n=====================\n")
 
     prompt = '\n ==== > Enter command: '
     amity = Amity()
@@ -70,7 +73,7 @@ class DojoRoomAllocation( cmd.Cmd ):
         """
         try:
             for room_name in arg['<room_names>']:
-                print( amity.create_room( arg['<room_type>'], room_name ) )
+                print(amity.create_room(arg['<room_type>'], room_name))
                 print("==============")
         except Exception:
             msg = term.red + 'An error when running create_room command' + term.off
@@ -110,7 +113,7 @@ class DojoRoomAllocation( cmd.Cmd ):
         """
         try:
             file_name = arg["<file_name>"]
-            print( amity.load_people( file_name ) )
+            print(amity.load_people(file_name))
         except Exception:
             print(term.red + 'An error when running load_people command' + term.off)
 
@@ -121,7 +124,7 @@ class DojoRoomAllocation( cmd.Cmd ):
         """
         try:
             file_name = arg["--file_name"]
-            print( amity.print_allocations( file_name ) )
+            print(amity.print_allocations(file_name))
         except Exception:
             msg = term.red + 'An error when running print_allocations command' + term.off
 
@@ -132,7 +135,7 @@ class DojoRoomAllocation( cmd.Cmd ):
         """
         try:
             file_name = arg["--file_name"]
-            print( amity.print_unallocated( file_name ) )
+            print(amity.print_unallocated(file_name))
         except Exception:
             msg = term.red + 'An error when running print_unallocated command' + term.off
 
@@ -143,8 +146,8 @@ class DojoRoomAllocation( cmd.Cmd ):
         """
         try:
             room_name = arg["<room_name>"]
-            print( amity.print_room( room_name ) )
-            print ("\n ==============")
+            print(amity.print_room(room_name))
+            print("\n ==============")
         except Exception:
             print(term.red + 'An error when running print_room command' + term.off)
 
@@ -155,7 +158,7 @@ class DojoRoomAllocation( cmd.Cmd ):
         """
         try:
             db_name = arg["<db_name>"]
-            print( amity.save_state( db_name ) )
+            print(amity.save_state(db_name))
         except Exception:
             msg = term.red + 'An error when running save_state command' + term.off
 
@@ -166,21 +169,19 @@ class DojoRoomAllocation( cmd.Cmd ):
         """
         try:
             db_name = arg["<db_name>"]
-            print( amity.load_state( db_name ) )
+            print(amity.load_state(db_name))
         except Exception:
             msg = term.red + 'An error when running load_state command' + term.off
-
 
     def do_quit(self, arg):
         """Usage: quit
 
         """
 
-        os.system( 'clear' )
-        print( term.blue + term.center( '\n=========================\n\nThank you for using the AMITY app. Hope to '
-                                        'see you back soon\n\n=========================\n') + term.off)
+        os.system('clear')
+        print('\n=========================\n\nThank you for using the AMITY app. Hope to '
+               'see you back soon\n\n=========================\n')
         exit()
-
 
 
 DojoRoomAllocation().cmdloop()
