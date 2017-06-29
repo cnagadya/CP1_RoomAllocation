@@ -5,6 +5,7 @@ python:
 cache: pip
 # command to install dependencies
 install:
+  - export PYTHONPATH=.
   - pip install -r requirements.txt
   - pip install coveralls
   - pip install nose
