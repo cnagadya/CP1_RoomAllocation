@@ -16,7 +16,7 @@
 
 ###### User Guide
 1. Clone or download a version of the app to his / her local machine
-2. Navicat to the application folder
+2. Navigate to the application folder
 3. Install the virtual environment in the root folder using the command:
 ```
 virtualenv venv
