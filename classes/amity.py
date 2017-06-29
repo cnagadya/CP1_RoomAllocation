@@ -59,16 +59,16 @@ class Amity(object):
 
         elif person_type.upper() == "STAFF":
             print("Adding {}...".format(person_name))
-            if wants_accommodation is not None:
-                return term.red + "For staff, you can only input 'First Name', 'Last Name' & 'Employment Type'" + term.off
-            else:
-                person_id = len(self.people) + 1
-                new_person = Person(person_name, person_type, person_id)
-                self.people.append(new_person)
-                # self.people[person_id] = person_name
-                print(term.bggreen + "{} has successfully been added as a member of staff with id {}".format(
-                    person_name, new_person.person_id) + term.off)
-                self.assign_office(new_person)
+
+            person_id = len(self.people) + 1
+            new_person = Person(person_name, person_type, person_id)
+            self.people.append(new_person)
+            # self.people[person_id] = person_name
+            print(term.bggreen + "{} has successfully been added as a member of staff with id {}".format(
+                person_name, new_person.person_id) + term.off)
+            self.assign_office(new_person)
+            if wants_accommodation in ("y", "Y"):
+                return term.red + "{} has not been given accommodation because (s)he is a member of staff".format(person_name) + term.off
 
         elif person_type.upper() == "FELLOW":
             print("Adding {}...".format(person_name))
@@ -147,17 +147,16 @@ class Amity(object):
                                 if person in occupants:
                                     self.offices[room_name].remove(person)
                             self.offices[new_room_name].append(person)
-                            print(
-                                "{}'s office has been changed to '{}'".format(person.person_name, new_room_name))
+                            return "{}'s office has been changed to '{}'".format(person.person_name, new_room_name)
                         else:
                             return "Sorry, office '{}' is already full".format(new_room_name)
 
                 elif new_room_name in self.rooms["Living Spaces"]:
                     if person.person_type.upper() == "STAFF":
-                        return ("A staff can not be allocated a living space")
+                        return "A staff can not be allocated a living space"
                     else:
                         if person in self.living[new_room_name]:
-                            print("{} is already in {} and therefore cant be reallocated".format(person.person_name,
+                            return("{} is already in {} and therefore cant be reallocated".format(person.person_name,
                                                                                                    new_room_name))
                         else:
                             if len(self.living[new_room_name]) < 4:
@@ -165,8 +164,7 @@ class Amity(object):
                                     if person in occupants:
                                         self.living[room_name].remove(person)
                                 self.living[new_room_name].append(person)
-                                print("{}'s living space has been changed to '{}'".format(
-                                    person.person_name, new_room_name))
+                                return "{}'s living space has been changed to '{}'".format(person.person_name, new_room_name)
                             else:
                                 return "Sorry, living space '{}' is already full".format(new_room_name)
 
