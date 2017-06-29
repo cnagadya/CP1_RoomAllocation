@@ -1,0 +1,19 @@
+[report]
+omit = 
+    *site-packages/*
+    *__init__.py*
+    *tests/__init__.py*
+    *sqlite3*
+    *sqlite3/*
+    *encodings/ascii.py*
+    *classes/__init__.py*
+    *classes/__init__.pyc*
+    *decimal.py*
+    *numbers.py*
+    *classes/amity.pyc*
+    *requirements.txt*
+    *classes/.DS_Store*
+    *classes/__pycache__*
+    *.gitignore*
+    *classes/.coverage*
+    *tests/test_amity.py*
