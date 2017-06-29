@@ -1,6 +1,6 @@
 [report]
 omit = 
-    *site-packages/*
+    */site-packages/*
     *__init__.py*
     *tests/__init__.py*
     *sqlite3*
@@ -10,10 +10,11 @@ omit =
     *classes/__init__.pyc*
     *decimal.py*
     *numbers.py*
-    *classes/amity.pyc*
     *requirements.txt*
     *classes/.DS_Store*
     *classes/__pycache__*
     *.gitignore*
     *classes/.coverage*
     *tests/test_amity.py*
+    *term.py*
+    *database/database.py*
