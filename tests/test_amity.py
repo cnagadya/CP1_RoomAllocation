@@ -116,7 +116,7 @@ class TestAmity(unittest.TestCase):
         self.amity.create_room("Office", "Africa")
         self.amity.create_room("Living", "Brown")
         self.assertEqual(
-            term.red + "For staff, you can only input 'First Name', 'Last Name' & 'Employment Type'" + term.off,
+            term.red + "Christine Nagadya has not been given accommodation because (s)he is a member of staff" + term.off,
             self.amity.add_person("Christine", "Nagadya", "STAFF", "Y"),
             msg="")
 
