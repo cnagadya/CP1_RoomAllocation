@@ -60,9 +60,9 @@ def intro():
 class DojoRoomAllocation(cmd.Cmd):
     os.system("clear")
 
-    f = Figlet(font='cosmic')
+    f = Figlet(font='3d_diagonal')
     print(term.white + f.renderText('A  M  I  T  Y') + term.off)
-    print("=====================\n \n \n Type 'help' to view list of commands\n\n\n=====================\n")
+    print("=====================\n \n \n Type 'help' to view list of available commands\n\n\n=====================\n")
 
     prompt = '\n ==== > Enter command: '
     amity = Amity()
