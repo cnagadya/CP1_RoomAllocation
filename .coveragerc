@@ -18,3 +18,4 @@ omit =
     *tests/test_amity.py*
     *term.py*
     *database/database.py*
+    *unittest/mock.py*

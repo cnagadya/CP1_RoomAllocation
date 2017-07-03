@@ -14,6 +14,6 @@ class Office( Room ):
 
 class LivingSpace( Room ):
     def __init__(self, room_name, room_type, capacity):
-        Room.__init__( room_name )
+        Room.__init__(self, room_name )
         self.room_type = "Living Space"
         self.capacity = 4
